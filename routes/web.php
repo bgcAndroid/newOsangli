@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Auth::routes();
+Route::get('/verify/{email}/{verifyToken}','Auth\RegisterController@sendMailDone')->name('sendMailDone');
+
+Route::get('/home', 'HomeController@index')->name('home');
