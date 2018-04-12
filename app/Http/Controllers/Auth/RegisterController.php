@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Str; 
+use Mail;
+use App\Mail\sendMail;
 
 class RegisterController extends Controller
 {
@@ -50,6 +53,8 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
+            'mobile'=>'required|string|min:10|max:10',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -63,10 +68,36 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user= User::create([
             'name' => $data['name'],
+            'lastName' => $data['lastName'],
+            'mobile' => $data['mobile'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-        ]);
+            'verifyToken'=> Str::random(40),
+            ]);
+
+        $thisUser=User::findOrFail($user->id);
+        $this->sendEmail($thisUser);
+        return $user;
+    }
+    public function sendEmail($thisUser)
+    {
+        // return $thisUser;
+        Mail::to($thisUser['email'])->send(new sendMail($thisUser));
+    }
+    public function sendMailDone($email, $verifyToken)
+    {
+        $user=User::where(['email'=>$email,'verifyToken'=>$verifyToken])->first();
+        if($user)
+        {
+            User::where(['email'=>$email,'verifyToken'=>$verifyToken])
+            ->update(['tokenStatus'=>1,'verifyToken'=>NULL]);
+            return 'Account verified.';
+        }
+        else
+        {
+            return 'user not found';
+        }
     }
 }
