@@ -14503,12 +14503,12 @@ var Form = function () {
 
             return new Promise(function (resolve, reject) {
                 axios[requestType](url, _this.data()).then(function (response) {
-                    _this.onSuccess(response.data);
-                    console.log(response);
-                    resolve(response.data);
+                    _this.onSuccess(response);
+                    // console.log(response);
+                    resolve(response);
                 }).catch(function (error) {
                     _this.onFail(error.response.data);
-                    console.log(error);
+                    // console.log(error);
                     reject(error.response.data);
                 });
             });
@@ -48010,7 +48010,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             axios.post('/login', this.details).then(function (response) {
-                console.log(response.data);
+                if (response.data.message && response.status === 200) {
+                    window.location = '/login';
+                }
             }).catch(function (error) {
                 if (error.response.status === 422) {}
                 _this.error = error.response.data.message;
@@ -48374,7 +48376,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             this.form.post('/register').then(function (res) {
-                if (res) {
+                if (res.data.message && res.status === 200) {
                     _this.msg = "Please Check your email for verification link!";
                 }
             });
