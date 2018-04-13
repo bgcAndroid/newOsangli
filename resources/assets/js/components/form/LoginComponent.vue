@@ -5,7 +5,7 @@
             <div class="img-icon">
                 <i class="fas fa-user fa-5x"></i>
             </div>
-            <div class="error">
+            <div class="error text-danger">
               {{error}}
             </div>
         </div>
