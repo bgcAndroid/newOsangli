@@ -88,13 +88,13 @@ class Form {
         return new Promise((resolve, reject) => {
             axios[requestType](url, this.data())
                 .then(response => {
-                    this.onSuccess(response.data);
-                    console.log(response);
-                    resolve(response.data);
+                    this.onSuccess(response);
+                    // console.log(response);
+                    resolve(response);
                 })
                 .catch(error => {
                     this.onFail(error.response.data);
-                    console.log(error);
+                    // console.log(error);
                     reject(error.response.data);
                 });
         });

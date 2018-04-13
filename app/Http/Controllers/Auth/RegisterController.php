@@ -92,7 +92,7 @@ class RegisterController extends Controller
         if($user)
         {
             User::where(['email'=>$email,'verifyToken'=>$verifyToken])
-            ->update(['tokenStatus'=>1,'verifyToken'=>NULL]);
+            ->update(['tokenStatus'=>1,'verifyToken'=>NULL,'apiToken'=>Str::random(40)]);
             return 'Account verified.';
         }
         else

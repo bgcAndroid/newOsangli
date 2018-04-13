@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('verifyToken')->nullable($value = true);
             $table->boolean('tokenStatus')->default('0');
+            $table->string('apiToken')->nullable($value = true);
             $table->rememberToken();
             $table->timestamps();
         });

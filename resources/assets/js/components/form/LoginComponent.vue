@@ -55,7 +55,9 @@
             onsubmit() {
                 axios.post('/login', this.details)
                     .then(response=>{
-                        console.log(response.data);
+                        if (response.data.message && response.status===200) {
+                            window.location='/login';
+                        }
                     })
                     .catch(error=> {
                         if (error.response.status === 422) {

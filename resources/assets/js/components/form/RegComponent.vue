@@ -72,7 +72,7 @@
             onsubmit()
             {
                 this.form.post('/register').then(res=>{
-                    if(res){
+                    if(res.data.message && res.status === 200){
                         this.msg="Please Check your email for verification link!"
                     }
                 })              
