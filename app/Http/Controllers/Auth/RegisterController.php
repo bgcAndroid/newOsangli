@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Str; 
 use Mail;
 use App\Mail\sendMail;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -42,6 +43,7 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
+
 
     /**
      * Get a validator for an incoming registration request.
@@ -81,6 +83,7 @@ class RegisterController extends Controller
         $this->sendEmail($thisUser);
         return $user;
     }
+
     public function sendEmail($thisUser)
     {
         // return $thisUser;
@@ -100,4 +103,13 @@ class RegisterController extends Controller
             return 'user not found';
         }
     }
+    protected function registered(Request $request, $user)
+    {
+        if($request->hasHeader('x-api-key'))
+        {
+            return response()->json(['message'=>true],200);
+        }
+        return response()->json(['message'=>true],200);
+    }
+
 }
