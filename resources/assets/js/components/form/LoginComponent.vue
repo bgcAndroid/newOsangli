@@ -25,7 +25,7 @@
                 <button type="submit" class="btn btn-block btn-primary">Submit</button>
                 <div class="center" style="margin-top: 5px">
                     <i class="fas fa-unlock-alt"></i>
-                    <a href="#">Forgot Password</a>
+                    <a href="/password/reset">Forgot Password</a>
                 </div>
             </form>
         </div>
