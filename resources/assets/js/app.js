@@ -17,7 +17,8 @@ window.Vue = require('vue');
 
 Vue.component('login-component', require('./components/form/LoginComponent.vue'));
 Vue.component('reg-component', require('./components/form/RegComponent.vue'));
-
+Vue.component('email-component', require('./components/form/resetpassComponent.vue'));
+Vue.component('reset-component', require('./components/form/resetFormComponent.vue'));
 const app = new Vue({
     el: '#app'
 });

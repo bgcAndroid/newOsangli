@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -35,5 +36,34 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    protected function sendLoginResponse($request)
+    {
+        if ($request->hasHeader('x-api-key')) {
+            return $this->authenticated($request, $this->guard()->user());
+        }
+            $request->session()->regenerate();
+
+            $this->clearLoginAttempts($request);
+
+            return $this->authenticated($request, $this->guard()->user());
+
+    }
+    protected function authenticated($request, $user)
+    {
+        if ($request->ajax()){
+            if($user->tokenStatus==1)
+            {
+                return response()->json(['message'=>true, 'apiToken'=>$user->apiToken],200);
+            }
+
+            else
+            {
+                $this->logout($request);
+                return response()->json(['message'=>false],403);
+            }
+
+        }
     }
 }
